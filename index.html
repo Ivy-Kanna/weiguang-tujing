@@ -855,15 +855,15 @@ input[type="date"]:focus {
 }
 
 /* ==========================================================================
-   Telegram 指引
+   每日晨報
    ========================================================================== */
-.telegram-config-grid {
+.daily-config-grid {
     display: grid;
     grid-template-columns: 1fr 1.2fr;
     gap: 1.5rem;
 }
 
-.telegram-preview-box {
+.daily-preview-box {
     background: #1e2933;
     color: #e2e8f0;
     padding: 1.5rem;
@@ -1008,7 +1008,7 @@ input[type="date"]:focus {
     .chart-content-grid {
         grid-template-columns: 1fr;
     }
-    .details-section, .telegram-config-grid, .summary-sheet-grid-2 {
+    .details-section, .daily-config-grid, .summary-sheet-grid-2 {
         grid-template-columns: 1fr;
     }
 }
@@ -1156,7 +1156,7 @@ input[type="date"]:focus {
 .main-wrapper, .content-container { min-width: 0; }
 .details-card, .form-card, .result-action-bar { min-width: 0; overflow-wrap: anywhere; }
 @media (max-width: 992px) {
-    .details-section, .telegram-config-grid, .summary-sheet-grid-2, .chart-content-grid { grid-template-columns: minmax(0, 1fr); }
+    .details-section, .daily-config-grid, .summary-sheet-grid-2, .chart-content-grid { grid-template-columns: minmax(0, 1fr); }
     .top-header { min-width: 0; }
     .header-breadcrumb { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1 1 auto; }
     .auth-user { display: none; }
@@ -1181,7 +1181,7 @@ body.hide-birth-form #natal-form-section { display: none; }
 </style>
     <style>
         /* 線上公開版：隱藏需要本機伺服器的推播功能 */
-        .nav-item-btn[data-tab="tab-telegram"], #tab-telegram { display: none !important; }
+        .nav-item-btn[data-tab="tab-daily"], #tab-daily { display: none !important; }
     </style>
 
     <!-- Astronomy Engine (高精度天文物理星曆庫 - 本地內建) -->
@@ -1512,7 +1512,7 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
                     <span class="nav-icon">⏳</span>
                     <span class="nav-label">生命週期回歸</span>
                 </button>
-                <button class="nav-item-btn" data-tab="tab-telegram">
+                <button class="nav-item-btn" data-tab="tab-daily">
                     <span class="nav-icon">📬</span>
                     <span class="nav-label">每日覺察推播</span>
                 </button>
@@ -1828,53 +1828,37 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
                         <div class="cycles-timeline-grid" id="cycles-container"></div>
                     </div>
 
-                    <!-- Tab 7: Telegram 每日指引 -->
-                    <div class="tab-pane" id="tab-telegram">
+                    <!-- Tab 7: 每日晨報 -->
+                    <div class="tab-pane" id="tab-daily">
                         <div class="module-intro-box">
-                            <h2>📬 每日生活覺察推播 ‧ 晨光中的溫暖守護</h2>
+                            <h2>📬 每日生活覺察晨報 ‧ 晨光中的溫暖守護</h2>
                             <p>每日早晨接收專屬的人類圖流日天氣、新接通電磁通道提醒與生活覺察避坑指南，以平靜從容的心迎接新的一天。</p>
                         </div>
 
-                        <div class="telegram-config-grid">
+                        <div class="daily-config-grid">
                             <div class="details-card">
-                                <h3 class="section-title">🤖 Telegram Bot 設定與排查</h3>
-                                <div style="background: var(--glow-amber-light); border: 1px solid var(--border-gold); padding: 0.9rem 1.1rem; border-radius: 12px; margin-bottom: 1.2rem; font-size: 0.88rem; color: var(--text-primary); line-height: 1.6; font-family: 'Noto Sans TC', sans-serif;">
-                                    <b>💡 解決 <code>chat not found</code> 必看 2 步驟：</b><br>
-                                    1. <b>重要！在 Telegram 搜尋您的 Bot 並點擊「START」</b>（或隨便傳一句話給它），否則 Bot 無法主動發訊息給您！<br>
-                                    2. <b>查詢您的純數字 Chat ID</b>：在 Telegram 搜尋 <code>@userinfobot</code> 或 <code>@getidsbot</code>，輸入 <code>/start</code> 即可看到您的 <code>Id: 123456789</code>（純數字，不帶 @）。
-                                </div>
-                                
-                                <div class="form-group" style="margin-bottom: 1rem;">
-                                    <label for="tg-bot-token">Bot Token (由 @BotFather 提供)</label>
-                                    <input type="text" id="tg-bot-token" placeholder="例如：123456789:ABCdefGhIJKlmNoPQRstuVWXyz" class="custom-input">
-                                </div>
-
-                                <div class="form-group" style="margin-bottom: 1.2rem;">
-                                    <label for="tg-chat-id">Chat ID (個人純數字 ID 或 @頻道帳號)</label>
-                                    <input type="text" id="tg-chat-id" placeholder="例如個人私訊：123456789 或 頻道：@your_channel" class="custom-input">
-                                </div>
-
+                                <h3 class="section-title">⏰ 每日晨報排程</h3>
                                 <!-- ⏰ 定時自動推播設定區塊 -->
                                 <div style="background: rgba(107, 138, 130, 0.1); border: 1px solid rgba(107, 138, 130, 0.4); padding: 1.1rem 1.3rem; border-radius: 14px; margin-bottom: 1.2rem;">
                                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
                                         <div style="font-weight: 700; color: #2b574c; font-size: 1rem; display: flex; align-items: center; gap: 0.4rem;">
                                             <span>⏰</span> 啟用自動推播引擎 (24/7 背景服務)
                                         </div>
-                                        <input type="checkbox" id="tg-auto-enabled" style="width: 20px; height: 20px; cursor: pointer; accent-color: var(--glow-sage);">
+                                        <input type="checkbox" id="daily-auto-enabled" style="width: 20px; height: 20px; cursor: pointer; accent-color: var(--glow-sage);">
                                     </div>
                                     
                                     <div style="display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 0.8rem;">
                                         <div style="display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap;">
-                                            <label for="tg-auto-mode" style="font-size: 0.9rem; color: var(--text-secondary); font-weight: 600;">推播頻率模式：</label>
-                                            <select id="tg-auto-mode" class="custom-input" style="width: 190px; padding: 0.35rem 0.6rem; font-weight: 700;">
+                                            <label for="daily-auto-mode" style="font-size: 0.9rem; color: var(--text-secondary); font-weight: 600;">推播頻率模式：</label>
+                                            <select id="daily-auto-mode" class="custom-input" style="width: 190px; padding: 0.35rem 0.6rem; font-weight: 700;">
                                                 <option value="every_10m">⚡ 每 10 分鐘測試發送一次</option>
                                                 <option value="daily" selected>🌅 每日早晨定時發送一次</option>
                                             </select>
                                         </div>
 
-                                        <div id="tg-daily-time-group" style="display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap;">
-                                            <label for="tg-auto-time" style="font-size: 0.9rem; color: var(--text-secondary); font-weight: 600;">每日發送時間 (台北時間)：</label>
-                                            <input type="time" id="tg-auto-time" value="08:00" class="custom-input" style="width: 130px; padding: 0.35rem 0.6rem; font-weight: 700;">
+                                        <div id="daily-time-group" style="display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap;">
+                                            <label for="daily-auto-time" style="font-size: 0.9rem; color: var(--text-secondary); font-weight: 600;">每日發送時間 (台北時間)：</label>
+                                            <input type="time" id="daily-auto-time" value="08:00" class="custom-input" style="width: 130px; padding: 0.35rem 0.6rem; font-weight: 700;">
                                         </div>
                                     </div>
 
@@ -1884,21 +1868,18 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
                                     <button type="button" class="btn-calculate" id="btn-save-schedule" style="margin-top: 0.8rem; padding: 0.45rem 1.2rem; font-size: 0.88rem; width: 100%;">
                                         <span>💾</span> 儲存自動推播排程設定
                                     </button>
-                                    <div id="tg-schedule-status" style="margin-top: 0.5rem; font-size: 0.85rem; font-weight: 600; text-align: center;"></div>
+                                    <div id="daily-schedule-status" style="margin-top: 0.5rem; font-size: 0.85rem; font-weight: 600; text-align: center;"></div>
                                 </div>
 
                                 <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
-                                    <button class="btn-calculate" id="btn-send-tg" style="padding: 0.6rem 1.4rem;">
-                                        <span>🚀</span> 立即手動測試發送 Telegram
-                                    </button>
-                                    <button class="btn-secondary" id="btn-copy-tg" style="padding: 0.6rem 1.4rem;">
-                                        <span>📋</span> 複製每日推播文案
+                                    <button class="btn-secondary" id="btn-copy-daily" style="padding: 0.6rem 1.4rem;">
+                                        <span>📋</span> 複製每日晨報文案
                                     </button>
                                     <button class="btn-secondary" id="btn-load-offline-report" style="padding: 0.6rem 1.4rem; background: var(--bg-card); color: var(--glow-sage); border: 1px solid var(--glow-sage);">
                                         <span>💾</span> 讀取本機離線日報
                                     </button>
                                 </div>
-                                <div id="tg-send-status" style="margin-top: 1rem; font-size: 0.9rem; font-weight: 500;"></div>
+                                <div id="daily-status" style="margin-top: 1rem; font-size: 0.9rem; font-weight: 500;"></div>
 
                                 <hr style="margin: 1.5rem 0; border: none; border-top: 1px dashed var(--border-subtle);">
 
@@ -1965,7 +1946,7 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
 
                             <div class="details-card">
                                 <h3 class="section-title">📄 今日覺察推播文案預覽 (HTML / Markdown)</h3>
-                                <div class="telegram-preview-box" id="tg-preview-content"></div>
+                                <div class="daily-preview-box" id="daily-preview-content"></div>
                             </div>
                         </div>
                     </div>
@@ -2677,7 +2658,7 @@ window.HD_CHIRON_EPHEMERIS = { startUtcMs: -2208988800000, stepDays: 10, lon: [2
 /* ===== calculator.js ===== */
 /**
  * 人類圖高精度計算引擎 (Human Design High-Precision Calculator Engine)
- * 包含本命圖譜、四箭頭 PHS 變數、雙人核圖合盤、當日流日合盤、大流年重大生命週期與 Telegram 指引生成
+ * 包含本命圖譜、四箭頭 PHS 變數、雙人核圖合盤、當日流日合盤、大流年重大生命週期與每日晨報指引生成
  */
 
 window.HD_CALCULATOR = (function() {
@@ -3551,9 +3532,9 @@ window.HD_CALCULATOR = (function() {
     }
 
     /**
-     * 生成 Telegram 每日生活覺察推播格式 (溫暖療癒微光風格)
+     * 生成每日生活覺察晨報文案 (溫暖療癒微光風格)
      */
-    function generateTelegramDailyReport(natalChart, transitOverlay) {
+    function generateDailyReport(natalChart, transitOverlay) {
         let t = transitOverlay.transit;
         let sunAct = t.activations.Sun;
         let earthAct = t.activations.Earth;
@@ -3887,7 +3868,7 @@ window.HD_CALCULATOR = (function() {
         calculateComposite,
         calculateLifeReturns,
         calculateChironReturnAnalysis,
-        generateTelegramDailyReport,
+        generateDailyReport,
         generateEmailDailyReport,
         longitudeToSubstructure,
         getTaiwanDSTOffset,
@@ -4423,14 +4404,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 監聽 Telegram 複製與發送按鈕
-    const btnCopyTg = document.getElementById('btn-copy-tg');
+    // 監聽「複製每日晨報文案」按鈕
+    const btnCopyTg = document.getElementById('btn-copy-daily');
     if (btnCopyTg) {
-        btnCopyTg.addEventListener('click', copyTelegramReport);
-    }
-    const btnSendTg = document.getElementById('btn-send-tg');
-    if (btnSendTg) {
-        btnSendTg.addEventListener('click', sendTelegramMessage);
+        btnCopyTg.addEventListener('click', copyDailyReport);
     }
 
     // 監聽儲存每日自動排程按鈕
@@ -4577,14 +4554,15 @@ function initFormSelects(yearId, monthId, dayId, hourId, minuteId, cityId) {
 
     if (!yearSelect) return;
 
-    const currentYear = new Date().getFullYear();
+    const today = new Date();
+    const currentYear = today.getFullYear();
 
     // 1. 年份 (1950 至 2026)
     for (let y = currentYear; y >= 1950; y--) {
         const opt = document.createElement('option');
         opt.value = y;
         opt.textContent = `${y} 年`;
-        if (y === (yearId === 'select-year' ? 1983 : 1985)) opt.selected = true;
+        if (y === (yearId === 'select-year' ? currentYear : 1985)) opt.selected = true;   // 本人出生資料：預設為今天
         yearSelect.appendChild(opt);
     }
 
@@ -4593,7 +4571,7 @@ function initFormSelects(yearId, monthId, dayId, hourId, minuteId, cityId) {
         const opt = document.createElement('option');
         opt.value = m;
         opt.textContent = `${m} 月`;
-        if (m === (yearId === 'select-year' ? 1 : 6)) opt.selected = true;
+        if (m === (yearId === 'select-year' ? today.getMonth() + 1 : 6)) opt.selected = true;
         monthSelect.appendChild(opt);
     }
 
@@ -4631,7 +4609,7 @@ function initFormSelects(yearId, monthId, dayId, hourId, minuteId, cityId) {
         const year = parseInt(yearSelect.value);
         const month = parseInt(monthSelect.value);
         const lastDay = new Date(year, month, 0).getDate();
-        const currentSelected = parseInt(daySelect.value) || (yearId === 'select-year' ? 23 : 15);
+        const currentSelected = parseInt(daySelect.value) || (yearId === 'select-year' ? today.getDate() : 15);
 
         daySelect.innerHTML = '';
         for (let d = 1; d <= lastDay; d++) {
@@ -5586,9 +5564,9 @@ function handleTransitCalculate() {
         </div>
     `;
 
-    // 同步更新 Telegram 推播文案
-    const tgMsg = HD_CALCULATOR.generateTelegramDailyReport(currentNatalChart, overlay);
-    const tgBox = document.getElementById('tg-preview-content');
+    // 同步更新每日晨報文案預覽
+    const tgMsg = HD_CALCULATOR.generateDailyReport(currentNatalChart, overlay);
+    const tgBox = document.getElementById('daily-preview-content');
     if (tgBox) {
         tgBox.textContent = tgMsg;
     }
@@ -5690,18 +5668,18 @@ function renderCyclesTab(chart) {
 }
 
 /**
- * 複製 Telegram 文案
+ * 複製每日晨報文案
  */
-function copyTelegramReport() {
-    const text = document.getElementById('tg-preview-content').textContent;
+function copyDailyReport() {
+    const text = document.getElementById('daily-preview-content').textContent;
     if (!text) {
         alert("請先完成本命盤計算！");
         return;
     }
     navigator.clipboard.writeText(text).then(() => {
-        const status = document.getElementById('tg-send-status');
+        const status = document.getElementById('daily-status');
         status.style.color = '#059669';
-        status.textContent = "✅ 已成功複製 Telegram 格式化推播文案！";
+        status.textContent = "✅ 已成功複製每日晨報文案！";
         setTimeout(() => status.textContent = '', 4000);
     }).catch(err => {
         alert("複製失敗，請手動選取複製。");
@@ -5709,80 +5687,7 @@ function copyTelegramReport() {
 }
 
 /**
- * 發送 Telegram 訊息至 Bot
- */
-async function sendTelegramMessage() {
-    const token = document.getElementById('tg-bot-token').value.trim();
-    const chatId = document.getElementById('tg-chat-id').value.trim();
-    const status = document.getElementById('tg-send-status');
-    const text = document.getElementById('tg-preview-content').textContent;
-
-    if (!token || !chatId) {
-        status.style.color = '#dc2626';
-        status.textContent = "⚠️ 請填寫 Telegram Bot Token 與 Chat ID！";
-        return;
-    }
-
-    status.style.color = '#0288d1';
-    status.textContent = "⏳ 正在傳送至 Telegram...";
-
-    try {
-        // 優先透過本地伺服器 Proxy 轉發 (徹底解決瀏覽器跨域 CORS 與防火牆連線問題)
-        let res = await fetch('/api/send-telegram', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                token: token,
-                chatId: chatId,
-                text: text,
-                parseMode: 'HTML'
-            })
-        });
-
-        // 若非透過本地伺服器開啟 (如直接以 file:// 開啟)，則 Fallback 使用 Telegram 官方 API 直連
-        if (!res.ok && res.status === 404) {
-            const directUrl = `https://api.telegram.org/bot${token}/sendMessage`;
-            res = await fetch(directUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: chatId,
-                    text: text,
-                    parse_mode: 'HTML'
-                })
-            });
-        }
-
-        const data = await res.json();
-        if (data.ok) {
-            status.style.color = '#059669';
-            status.innerHTML = "🎉 <b>成功發送每日生活覺察指引至 Telegram！</b>";
-        } else {
-            status.style.color = '#b84a44';
-            const desc = data.description || '未知錯誤';
-            if (desc.includes('chat not found')) {
-                status.innerHTML = `❌ <b>發送失敗：Chat not found（找不到對話）</b><br>
-                💡 <b>請檢查以下 2 個常見原因：</b><br>
-                1. <b>尚未與 Bot 開啟對話</b>：請在 Telegram 搜尋您的 Bot 帳號，點擊下方「<b>START</b>」發送任一訊息給它！<br>
-                2. <b>Chat ID 是否正確</b>：個人 Chat ID 是一串純數字（例如 <code>123456789</code>，可透過 @userinfobot 查詢）。若為頻道請確認已將 Bot 設為管理員。`;
-            } else if (desc.includes('Unauthorized') || desc.includes('Not Found')) {
-                status.innerHTML = `❌ <b>發送失敗：Bot Token 無效</b><br>💡 請檢查向 @BotFather 取得的 Token 是否完整無缺漏（格式如 <code>123456789:ABCdefGh...</code>）。`;
-            } else {
-                status.innerHTML = `❌ <b>發送失敗</b>：${desc}`;
-            }
-        }
-    } catch (e) {
-        status.style.color = '#b84a44';
-        status.innerHTML = `❌ <b>發送出錯：${e.message}</b><br>
-        💡 <b>排查建議：</b><br>
-        1. 請確認瀏覽器正透過 <code>http://localhost:3000</code> 開啟。<br>
-        2. 請確認網路可正常連線至網際網路。<br>
-        3. 您也可以點擊「<b>📋 複製每日推播文案</b>」按鈕，直接手動貼上到 Telegram 中發送！`;
-    }
-}
-
-/**
- * 載入每日自動推播設定 (包含 Telegram 與 Email)
+ * 載入每日自動推播設定 (Email)
  */
 async function loadScheduleSettings() {
     try {
@@ -5791,12 +5696,10 @@ async function loadScheduleSettings() {
         const data = await res.json();
         if (data.ok && data.config) {
             const c = data.config;
-            const tokenInput = document.getElementById('tg-bot-token');
-            const chatIdInput = document.getElementById('tg-chat-id');
-            const autoEnabled = document.getElementById('tg-auto-enabled');
-            const autoMode = document.getElementById('tg-auto-mode');
-            const autoTime = document.getElementById('tg-auto-time');
-            const dailyGroup = document.getElementById('tg-daily-time-group');
+            const autoEnabled = document.getElementById('daily-auto-enabled');
+            const autoMode = document.getElementById('daily-auto-mode');
+            const autoTime = document.getElementById('daily-auto-time');
+            const dailyGroup = document.getElementById('daily-time-group');
 
             // Email 欄位
             const emailEnabled = document.getElementById('email-enabled');
@@ -5808,8 +5711,6 @@ async function loadScheduleSettings() {
             const emailPass = document.getElementById('email-pass');
             const customGroup = document.getElementById('email-custom-smtp-group');
 
-            if (tokenInput && c.token) tokenInput.value = c.token;
-            if (chatIdInput && c.chatId) chatIdInput.value = c.chatId;
             if (autoEnabled) autoEnabled.checked = !!c.enabled;
             if (autoMode && c.mode) {
                 autoMode.value = c.mode;
@@ -5846,15 +5747,13 @@ async function loadScheduleSettings() {
 }
 
 /**
- * 儲存每日自動推播設定 (包含 Telegram 與 Email)
+ * 儲存每日自動推播設定 (Email)
  */
 async function saveScheduleSettings() {
-    const token = document.getElementById('tg-bot-token').value.trim();
-    const chatId = document.getElementById('tg-chat-id').value.trim();
-    const enabled = document.getElementById('tg-auto-enabled').checked;
-    const mode = document.getElementById('tg-auto-mode')?.value || 'every_10m';
-    const time = document.getElementById('tg-auto-time').value;
-    const status = document.getElementById('tg-schedule-status');
+    const enabled = document.getElementById('daily-auto-enabled').checked;
+    const mode = document.getElementById('daily-auto-mode')?.value || 'every_10m';
+    const time = document.getElementById('daily-auto-time').value;
+    const status = document.getElementById('daily-schedule-status');
 
     // Email 欄位值
     const emailEnabled = document.getElementById('email-enabled')?.checked || false;
@@ -5880,8 +5779,6 @@ async function saveScheduleSettings() {
             mode,
             time,
             intervalMinutes: 10,
-            token,
-            chatId,
             emailEnabled,
             smtpService,
             smtpHost,
@@ -5975,8 +5872,8 @@ async function sendTestEmail() {
  * 讀取本機離線日報
  */
 async function loadOfflineDailyReport() {
-    const status = document.getElementById('tg-send-status');
-    const preview = document.getElementById('tg-preview-content');
+    const status = document.getElementById('daily-status');
+    const preview = document.getElementById('daily-preview-content');
     status.style.color = '#0288d1';
     status.textContent = '⏳ 正在讀取本機離線日報...';
 
