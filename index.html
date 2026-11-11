@@ -1178,6 +1178,8 @@ input[type="date"]:focus {
 /* 出生資料只在第一個分頁輸入 */
 body.hide-birth-form #natal-form-section { display: none; }
 
+.auth-hint{font-size:.78rem;color:#8a7a62;margin:-.3rem 0 .6rem;line-height:1.5}
+
 </style>
     <style>
         /* 線上公開版：隱藏需要本機伺服器的推播功能 */
@@ -1665,26 +1667,6 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
                                 <div class="card-tag">輪迴交叉 ‧ 靈魂使命</div>
                                 <div class="card-value" id="val-cross" style="font-size: 1.15rem;">-</div>
                                 <div class="card-detail" id="val-definition">定義：-</div>
-                            </div>
-                        </div>
-
-                        <!-- 人體圖與行星列表並列區 -->
-                        <div class="chart-content-grid">
-                            <!-- 左側：設計盤 (紅色 / 潛意識) -->
-                            <div class="planet-column unconscious-col">
-                                <h3 class="col-title unconscious-title">🔴 設計 (身體潛意識)</h3>
-                                <div class="planet-list" id="unconscious-list"></div>
-                            </div>
-
-                            <!-- 中間：九大能量中心人體圖 SVG -->
-                            <div class="bodygraph-container">
-                                <div class="bodygraph-wrapper" id="bodygraph-svg-box"></div>
-                            </div>
-
-                            <!-- 右側：個性盤 (黑色 / 意識) -->
-                            <div class="planet-column conscious-col">
-                                <h3 class="col-title conscious-title">⚫ 個性 (意識心智)</h3>
-                                <div class="planet-list" id="conscious-list"></div>
                             </div>
                         </div>
 
@@ -4774,13 +4756,6 @@ function renderOverviewTab(chart) {
     document.getElementById('val-cross').textContent = chart.cross.name;
     document.getElementById('val-definition').textContent = `定義：${chart.definition.name}`;
 
-    // 行星列表 (黑/紅)
-    renderPlanetList('conscious-list', chart.personalityActivations, '#102a43');
-    renderPlanetList('unconscious-list', chart.designActivations, '#d32f2f');
-
-    // 繪製人體圖 SVG
-    renderBodyGraph(chart);
-
     // 渲染輪迴交叉深度解讀
     renderCrossDetail(chart);
 
@@ -4843,30 +4818,6 @@ function renderCrossDetail(chart) {
     `;
 }
 
-function renderPlanetList(containerId, activations, colorHex) {
-    const container = document.getElementById(containerId);
-    container.innerHTML = '';
-
-    const planetNames = {
-        Sun: "太陽 ☉", Earth: "地球 ♁", Moon: "月亮 ☽",
-        NorthNode: "北交點 ☊", SouthNode: "南交點 ☋",
-        Mercury: "水星 ☿", Venus: "金星 ♀", Mars: "火星 ♂",
-        Jupiter: "木星 ♃", Saturn: "土星 ♄",
-        Uranus: "天王星 ♅", Neptune: "海王星 ♆", Pluto: "冥王星 ♇"
-    };
-
-    Object.keys(activations).forEach(body => {
-        const act = activations[body];
-        const row = document.createElement('div');
-        row.className = 'planet-row';
-        row.innerHTML = `
-            <span style="font-weight: 600;">${planetNames[body] || body}</span>
-            <span style="color: ${colorHex}; font-weight: 800;">${act.gate}.${act.line}</span>
-        `;
-        container.appendChild(row);
-    });
-}
-
 function renderChannels(channels) {
     const container = document.getElementById('channels-container');
     container.innerHTML = '';
@@ -4905,106 +4856,6 @@ function renderCenters(centersState) {
         `;
         container.appendChild(item);
     });
-}
-
-/**
- * 繪製人體圖 SVG (BodyGraph)
- */
-function renderBodyGraph(chart) {
-    const box = document.getElementById('bodygraph-svg-box');
-    const cs = chart.centersState;
-
-    // 定義中心幾何中心座標
-    const coords = {
-        HEAD: { x: 200, y: 40, shape: 'triangle-up', color: cs.HEAD.defined ? '#fbbf24' : '#ffffff' },
-        AJNA: { x: 200, y: 100, shape: 'triangle-down', color: cs.AJNA.defined ? '#4ade80' : '#ffffff' },
-        THROAT: { x: 200, y: 175, shape: 'square', color: cs.THROAT.defined ? '#a855f7' : '#ffffff' },
-        G: { x: 200, y: 260, shape: 'diamond', color: cs.G.defined ? '#facc15' : '#ffffff' },
-        HEART: { x: 280, y: 290, shape: 'triangle-small', color: cs.HEART.defined ? '#ef4444' : '#ffffff' },
-        SPLEEN: { x: 90, y: 350, shape: 'triangle-left', color: cs.SPLEEN.defined ? '#94a3b8' : '#ffffff' },
-        SACRAL: { x: 200, y: 355, shape: 'square', color: cs.SACRAL.defined ? '#f97316' : '#ffffff' },
-        SOLAR: { x: 310, y: 350, shape: 'triangle-right', color: cs.SOLAR.defined ? '#06b6d4' : '#ffffff' },
-        ROOT: { x: 200, y: 450, shape: 'square', color: cs.ROOT.defined ? '#b45309' : '#ffffff' }
-    };
-
-    let svg = `<svg viewBox="0 0 400 510" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-                <feGaussianBlur stdDeviation="3" result="blur" />
-                <feComposite in="SourceGraphic" in2="blur" operator="over" />
-            </filter>
-        </defs>`;
-
-    // 繪製 36 條通道線段 (接通高亮)
-    const channelLines = [
-        { id: "4-63", c1: coords.HEAD, c2: coords.AJNA },
-        { id: "24-61", c1: coords.HEAD, c2: coords.AJNA },
-        { id: "47-64", c1: coords.HEAD, c2: coords.AJNA },
-        { id: "17-62", c1: coords.AJNA, c2: coords.THROAT },
-        { id: "11-56", c1: coords.AJNA, c2: coords.THROAT },
-        { id: "23-43", c1: coords.AJNA, c2: coords.THROAT },
-        { id: "1-8", c1: coords.THROAT, c2: coords.G },
-        { id: "7-31", c1: coords.THROAT, c2: coords.G },
-        { id: "13-33", c1: coords.THROAT, c2: coords.G },
-        { id: "10-20", c1: coords.THROAT, c2: coords.G },
-        { id: "21-45", c1: coords.THROAT, c2: coords.HEART },
-        { id: "12-22", c1: coords.THROAT, c2: coords.SOLAR },
-        { id: "35-36", c1: coords.THROAT, c2: coords.SOLAR },
-        { id: "16-48", c1: coords.THROAT, c2: coords.SPLEEN },
-        { id: "20-57", c1: coords.THROAT, c2: coords.SPLEEN },
-        { id: "20-34", c1: coords.THROAT, c2: coords.SACRAL },
-        { id: "25-51", c1: coords.G, c2: coords.HEART },
-        { id: "2-14", c1: coords.G, c2: coords.SACRAL },
-        { id: "5-15", c1: coords.G, c2: coords.SACRAL },
-        { id: "29-46", c1: coords.G, c2: coords.SACRAL },
-        { id: "10-34", c1: coords.G, c2: coords.SACRAL },
-        { id: "10-57", c1: coords.G, c2: coords.SPLEEN },
-        { id: "26-44", c1: coords.HEART, c2: coords.SPLEEN },
-        { id: "37-40", c1: coords.HEART, c2: coords.SOLAR },
-        { id: "27-50", c1: coords.SACRAL, c2: coords.SPLEEN },
-        { id: "34-57", c1: coords.SACRAL, c2: coords.SPLEEN },
-        { id: "6-59", c1: coords.SACRAL, c2: coords.SOLAR },
-        { id: "9-52", c1: coords.SACRAL, c2: coords.ROOT },
-        { id: "3-60", c1: coords.SACRAL, c2: coords.ROOT },
-        { id: "42-53", c1: coords.SACRAL, c2: coords.ROOT },
-        { id: "18-58", c1: coords.SPLEEN, c2: coords.ROOT },
-        { id: "28-38", c1: coords.SPLEEN, c2: coords.ROOT },
-        { id: "32-54", c1: coords.SPLEEN, c2: coords.ROOT },
-        { id: "19-49", c1: coords.SOLAR, c2: coords.ROOT },
-        { id: "39-55", c1: coords.SOLAR, c2: coords.ROOT },
-        { id: "30-41", c1: coords.SOLAR, c2: coords.ROOT }
-    ];
-
-    channelLines.forEach(line => {
-        let isActive = chart.activeChannelIds.has(line.id);
-        let color = isActive ? '#00e5ff' : 'rgba(148, 163, 184, 0.25)';
-        let strokeWidth = isActive ? 5 : 2;
-        let glow = isActive ? 'filter="url(#glow)"' : '';
-        svg += `<line x1="${line.c1.x}" y1="${line.c1.y}" x2="${line.c2.x}" y2="${line.c2.y}" stroke="${color}" stroke-width="${strokeWidth}" stroke-linecap="round" ${glow} />`;
-    });
-
-    // 繪製 9 大能量中心形狀
-    // 1. HEAD (Triangle-Up)
-    svg += `<polygon points="200,15 170,55 230,55" fill="${coords.HEAD.color}" stroke="#334155" stroke-width="2.5" />`;
-    // 2. AJNA (Triangle-Down)
-    svg += `<polygon points="170,80 230,80 200,120" fill="${coords.AJNA.color}" stroke="#334155" stroke-width="2.5" />`;
-    // 3. THROAT (Square)
-    svg += `<rect x="175" y="150" width="50" height="50" rx="6" fill="${coords.THROAT.color}" stroke="#334155" stroke-width="2.5" />`;
-    // 4. G (Diamond)
-    svg += `<polygon points="200,230 230,260 200,290 170,260" fill="${coords.G.color}" stroke="#334155" stroke-width="2.5" />`;
-    // 5. HEART (Small Triangle)
-    svg += `<polygon points="265,275 295,290 275,310" fill="${coords.HEART.color}" stroke="#334155" stroke-width="2.5" />`;
-    // 6. SPLEEN (Left Triangle)
-    svg += `<polygon points="65,350 115,320 115,380" fill="${coords.SPLEEN.color}" stroke="#334155" stroke-width="2.5" />`;
-    // 7. SACRAL (Square)
-    svg += `<rect x="175" y="330" width="50" height="50" rx="6" fill="${coords.SACRAL.color}" stroke="#334155" stroke-width="2.5" />`;
-    // 8. SOLAR (Right Triangle)
-    svg += `<polygon points="335,350 285,320 285,380" fill="${coords.SOLAR.color}" stroke="#334155" stroke-width="2.5" />`;
-    // 9. ROOT (Square)
-    svg += `<rect x="175" y="425" width="50" height="50" rx="6" fill="${coords.ROOT.color}" stroke="#334155" stroke-width="2.5" />`;
-
-    svg += `</svg>`;
-    box.innerHTML = svg;
 }
 
 /**
@@ -6000,7 +5851,8 @@ function initCrystalCanvas() {
         open(`<h3>${signup ? '建立帳號' : '登入微光圖境'}</h3>
             <form id="auth-form" class="auth-form">
                 <label>Email<input type="email" id="auth-email" required autocomplete="email"></label>
-                <label>密碼（至少 6 碼）<input type="password" id="auth-pass" required minlength="6" autocomplete="${signup ? 'new-password' : 'current-password'}"></label>
+                <label>密碼<input type="password" id="auth-pass" required minlength="8" autocomplete="${signup ? 'new-password' : 'current-password'}"></label>
+                ${signup ? '<div class="auth-hint">至少 8 碼，需同時包含大寫、小寫、數字與符號（例如 Moon#2026a）</div>' : ''}
                 <div id="auth-msg" class="auth-msg"></div>
                 <button type="submit" class="auth-btn full">${signup ? '註冊' : '登入'}</button>
             </form>
@@ -6017,7 +5869,7 @@ function initCrystalCanvas() {
             const email = $('auth-email').value.trim(), password = $('auth-pass').value;
             if (signup) {
                 const { data, error } = await sb.auth.signUp({ email, password, options: { emailRedirectTo: location.href.split('#')[0] } });
-                if (error) { msg.textContent = error.message; return; }
+                if (error) { msg.textContent = /password/i.test(error.message) ? '密碼不符合規則：至少 8 碼，需包含大寫、小寫、數字與符號' : (/already|registered/i.test(error.message) ? '這個 Email 已經註冊過，請直接登入' : error.message); return; }
                 msg.textContent = data.session ? '註冊成功！' : '註冊成功，請到信箱點確認連結後再登入。';
                 if (data.session) close();
             } else {
