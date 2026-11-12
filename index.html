@@ -1180,6 +1180,38 @@ body.hide-birth-form #natal-form-section { display: none; }
 
 .auth-hint{font-size:.78rem;color:#8a7a62;margin:-.3rem 0 .6rem;line-height:1.5}
 
+/* 四箭頭 PHS：依實際位置排成 2×2（左上、右上／左下、右下） */
+.phs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 760px) { .phs-grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* 四箭頭：2×2 版面，背景為箭頭示意圖 */
+.phs-board { grid-column: 1 / -1; position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+.phs-board .phs-card { position: relative; z-index: 1; background: rgba(255, 255, 255, .78); }
+.phs-bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+@media (max-width: 760px) { .phs-board { grid-template-columns: minmax(0, 1fr); } .phs-bg { display: none; } }
+
+/* 四箭頭：左右對照列 */
+.phs-pair { display: flex; gap: .6rem; }
+.phs-opt { flex: 1; display: flex; flex-direction: column; align-items: center; gap: .1rem; padding: .45rem .3rem; border: 1px dashed #d9ccb4; border-radius: 12px; opacity: .45; line-height: 1.25; }
+.phs-opt .phs-glyph { font-size: 1.3rem; }
+.phs-opt small { font-size: .66rem; letter-spacing: .06em; color: #8a7a62; }
+.phs-opt.on { opacity: 1; background: #f8ebcf; border: 1px solid #c99765; box-shadow: 0 1px 6px rgba(201, 151, 101, .25); }
+.phs-pair-note { font-size: .78rem; color: #8a7a62; text-align: center; margin-top: -.2rem; }
+
+/* 通道／閘門補充：別名、常見困擾、小實驗 */
+.ch-note{margin-top:.5rem;padding:.55rem .75rem;background:#faf6ef;border:1px solid #eadfcb;border-radius:10px;font-size:.82rem;line-height:1.65;color:#5a4a3a}
+.ch-note b{color:#8a5a2b}
+.ch-alias,.mn-alias{display:inline-block;margin-bottom:.25rem;padding:0 .5rem;border-radius:8px;background:#f3e3c2;color:#8a5a2b;font-size:.72rem}
+.mn-note{margin:.6rem 0;padding:.6rem .8rem;background:#faf6ef;border:1px solid #eadfcb;border-radius:12px;font-size:.84rem;line-height:1.65;color:#5a4a3a}
+.mn-note p{margin:.3rem 0}
+.mn-note b{color:#8a5a2b}
+
+.phs-exercise{padding:.7rem .9rem;background:#eef5ee;border:1px solid #cfe0cf;border-radius:12px;font-size:.84rem;line-height:1.65;color:#3d5a45}
+.phs-exercise b{color:#2b574c}
+
+.type-note{margin-top:.8rem;padding:.6rem .8rem;background:#faf6ef;border:1px solid #eadfcb;border-radius:10px;font-size:.84rem;line-height:1.7;color:#5a4a3a}
+.type-note b{color:#8a5a2b}
+
 </style>
     <style>
         /* 線上公開版：隱藏需要本機伺服器的推播功能 */
@@ -1975,14 +2007,14 @@ window.HD_DATA = {
 
     // 36 條通道定義
     channels: [
-        { id: "1-8", gates: [1, 8], centers: ["G", "THROAT"], name: "啟發的通道", desc: "擁抱自身獨特性，以原創的自我風格引領眾人走向未來。" },
-        { id: "2-14", gates: [2, 14], centers: ["G", "SACRAL"], name: "脈動的通道", desc: "掌握財富與資源之鑰，以僕人領袖的心態為世界指引方向。" },
+        { id: "1-8", gates: [1, 8], centers: ["G", "THROAT"], name: "啟發的通道", desc: "擁抱自身獨特性，以身作則地活出原創風格，讓人從你的樣子得到靈感，走向更真實的未來。" },
+        { id: "2-14", gates: [2, 14], centers: ["G", "SACRAL"], name: "脈動的通道", desc: "掌握財富與資源之鑰，以僕人領袖的心態為世界指引方向，天生就是別人的指路人。" },
         { id: "3-60", gates: [3, 60], centers: ["SACRAL", "ROOT"], name: "突變的通道", desc: "在限制與混亂中突圍，為世界帶來不可預測的質變與新秩序。" },
-        { id: "4-63", gates: [4, 63], centers: ["AJNA", "HEAD"], name: "邏輯的通道", desc: "充滿對未來的懷疑與理性推演，透過解答為群眾帶來啟發。" },
+        { id: "4-63", gates: [4, 63], centers: ["AJNA", "HEAD"], name: "邏輯的通道", desc: "不斷對未來提問與質疑，替疑問整理出暫時可用的答案，為群眾帶來啟發。" },
         { id: "5-15", gates: [5, 15], centers: ["SACRAL", "G"], name: "韻律的通道", desc: "順應大自然的生命之流與作息，具有調整他人生活節奏的魔力。" },
         { id: "6-59", gates: [6, 59], centers: ["SOLAR", "SACRAL"], name: "親密的通道", desc: "打破人際隔閡，具備極強的生殖力、創造力與人際吸引力。" },
         { id: "7-31", gates: [7, 31], centers: ["G", "THROAT"], name: "創始者的通道", desc: "民主時代的領導者，受大眾推舉，為未來指引正確發展方向。" },
-        { id: "9-52", gates: [9, 52], centers: ["SACRAL", "ROOT"], name: "專心的通道", desc: "能安坐專注於細節，引導團隊凝聚焦點並完成精密任務。" },
+        { id: "9-52", gates: [9, 52], centers: ["SACRAL", "ROOT"], name: "專心的通道", desc: "專注力由興趣點燃：有興趣時能沉得住氣、鑽進細節，把團隊的焦點收攏起來完成精密任務；沒興趣時自然抽離，並不是偷懶。" },
         { id: "10-20", gates: [10, 20], centers: ["G", "THROAT"], name: "覺醒的通道", desc: "「我愛、我說、我存在」，透過全然活在當下與愛自己啟發他人。" },
         { id: "10-34", gates: [10, 34], centers: ["G", "SACRAL"], name: "探索的通道", desc: "跟隨自身信念與原則行動，展現純粹自我信念的力量。" },
         { id: "10-57", gates: [10, 57], centers: ["G", "SPLEEN"], name: "完美展現的通道", desc: "具備生存美學天賦，能以敏銳直覺將環境與自我調整至完美狀態。" },
@@ -1991,7 +2023,7 @@ window.HD_DATA = {
         { id: "13-33", gates: [13, 33], centers: ["G", "THROAT"], name: "足智多謀的通道", desc: "歷史的見證者與聆聽者，記錄大眾經驗與祕密，並傳承教訓。" },
         { id: "16-48", gates: [16, 48], centers: ["THROAT", "SPLEEN"], name: "才華的通道", desc: "「十年磨一劍」，將深度智慧透過反覆練習轉化為精湛技藝。" },
         { id: "17-62", gates: [17, 62], centers: ["AJNA", "THROAT"], name: "接受的通道", desc: "組織管理大師，兼具大架構藍圖觀點與鋸細靡遺的細節執行力。" },
-        { id: "18-58", gates: [18, 58], centers: ["SPLEEN", "ROOT"], name: "批評的通道", desc: "嚴苛挑剔的背後滿懷對人類的愛，專門找出瑕疵並修正使之完美。" },
+        { id: "18-58", gates: [18, 58], centers: ["SPLEEN", "ROOT"], name: "批評的通道", desc: "嚴苛挑剔的背後滿懷對人類的愛，專門找出瑕疵並修正使之完美；出發點是想把事情變好，針對的是事，不是人。" },
         { id: "19-49", gates: [19, 49], centers: ["ROOT", "SOLAR"], name: "整合綜效的通道", desc: "重視社群原則與情感需求，有情有義，透過共識與承諾凝聚家族。" },
         { id: "20-34", gates: [20, 34], centers: ["THROAT", "SACRAL"], name: "魅力的通道", desc: "忙碌的實幹家，將純粹的生命力即時轉化為行動。" },
         { id: "20-57", gates: [20, 57], centers: ["THROAT", "SPLEEN"], name: "腦波的通道", desc: "在當下擁有極其敏銳的直覺感知與洞察力，說出切中要害的真理。" },
@@ -2091,18 +2123,18 @@ window.HD_DATA = {
 
     // 人生角色描述
     profiles: {
-        "1/3": { name: "1/3 研究/實踐者", desc: "凡事追根究底，在不斷撞牆試錯中累積真知灼見，基礎最扎實的實戰派。" },
-        "1/4": { name: "1/4 研究/網絡者", desc: "專注深入鑽研特定領域，並透過熟人朋友圈分享專業與影響力。" },
-        "2/4": { name: "2/4 隱士/網絡者", desc: "平時享受獨處與天賦，當被朋友看見並召喚時，能在人際圈大放異彩。" },
-        "2/5": { name: "2/5 隱士/將軍", desc: "隱藏的奇才，帶有神秘感。在眾人寄予厚望的求助下，能出面拯救危機。" },
-        "3/5": { name: "3/5 實踐/將軍", desc: "人生經歷豐富碰撞與波折，能從失敗中總結出拯救大眾的實用錦囊妙計。" },
-        "3/6": { name: "3/6 實踐/人生典範", desc: "前半生充滿冒險與試錯考驗，中年後沉澱智慧，最終成為受人敬重的導師。" },
-        "4/6": { name: "4/6 網絡/人生典範", desc: "極富人緣與說服力，在熟人網絡中歷經三階段蛻變，成為客觀公正的人生典範。" },
-        "4/1": { name: "4/1 網絡/研究者", desc: "罕見的「固定命運」，如磐石般不可撼動，專注於自己的固定軌道。" },
-        "5/1": { name: "5/1 將軍/研究者", desc: "自帶領袖光環與眾人期待，必須以扎實專業研究為後盾，才能持續成功。" },
-        "5/2": { name: "5/2 將軍/隱士", desc: "具備實用天賦但極為低調，不主動推銷自己，需等待外界極具誠意的正確邀請。" },
+        "1/3": { name: "1/3 調查員/烈士", desc: "凡事追根究底，在不斷撞牆試錯中累積真知灼見，基礎最扎實的實戰派。" },
+        "1/4": { name: "1/4 調查員/機會主義者", desc: "專注深入鑽研特定領域，並透過熟人朋友圈分享專業與影響力。" },
+        "2/4": { name: "2/4 隱士/機會主義者", desc: "平時享受獨處與天賦，當被朋友看見並召喚時，能在人際圈大放異彩。" },
+        "2/5": { name: "2/5 隱士/異端者", desc: "隱藏的奇才，帶有神秘感。在眾人寄予厚望的求助下，能出面拯救危機。" },
+        "3/5": { name: "3/5 烈士/異端者", desc: "人生經歷豐富碰撞與波折，能從失敗中總結出拯救大眾的實用錦囊妙計。" },
+        "3/6": { name: "3/6 烈士/人生典範", desc: "前半生充滿冒險與試錯考驗，中年後沉澱智慧，最終成為受人敬重的導師。" },
+        "4/6": { name: "4/6 機會主義者/人生典範", desc: "極富人緣與說服力，在熟人網絡中歷經三階段蛻變，成為客觀公正的人生典範。" },
+        "4/1": { name: "4/1 機會主義者/調查員", desc: "罕見的「固定命運」，如磐石般不可撼動，專注於自己的固定軌道。" },
+        "5/1": { name: "5/1 異端者/調查員", desc: "自帶領袖光環與眾人期待，必須以扎實專業研究為後盾，才能持續成功。" },
+        "5/2": { name: "5/2 異端者/隱士", desc: "具備實用天賦但極為低調，不主動推銷自己，需等待外界極具誠意的正確邀請。" },
         "6/2": { name: "6/2 人生典範/隱士", desc: "天然具備超然清高的觀察視角，在隱遁充電與出面成為榜樣之間尋求平衡。" },
-        "6/3": { name: "6/3 人生典範/實踐者", desc: "即使身為典範，內在仍充滿冒險精神與試錯動力，在動態變化中體悟生命真諦。" }
+        "6/3": { name: "6/3 人生典範/烈士", desc: "即使身為典範，內在仍充滿冒險精神與試錯動力，在動態變化中體悟生命真諦。" }
     },
 
     // 定義型態 (含決策流動機制)
@@ -2129,7 +2161,7 @@ window.HD_DATA = {
         },
         NO_DEFINITION: {
             name: "無定義 (No Definition)",
-            desc: "反映者專屬。九大中心皆開放，如明鏡般映照周遭環境與宇宙月相能量。",
+            desc: "反映者專屬。九大中心皆未定義（空白），如明鏡般映照周遭環境與宇宙月相能量。",
             decisionFlow: "【反映者 ‧ 決策優勢與節奏】\n• 跟隨月亮週期：重大決定給自己 28.5 天，在月亮走過 64 閘門的過程中感受不同面向的智慧，時間到了答案自會澄澈浮現。"
         }
     },
@@ -2165,7 +2197,7 @@ window.HD_DATA = {
         },
         PROJECTOR: {
             name: "投射者 (Projector)",
-            strategy: "等待被邀請 (Wait for the Invitation)",
+            strategy: "等待邀請 (Wait for the Invitation)",
             signature: "成功 (Success)",
             notSelfTheme: "苦澀 (Bitterness)",
             decisionGuide: "【專屬決策密技】\n1. 在未被看見與正式邀請前，切勿主動給予他人建議，否則會感到滿滿苦澀。\n2. 專注鑽研自己熱愛的專業，提升自身辨識力與光芒。\n3. 當他人發出真誠且尊重您才華的重大邀請時再接受，您將引領團隊走向輝煌成功！",
@@ -2177,9 +2209,9 @@ window.HD_DATA = {
             strategy: "等待月亮週期 (28.5 天)",
             signature: "驚喜 (Surprise)",
             notSelfTheme: "失望 (Disappointment)",
-            decisionGuide: "【專屬決策密技】\n1. 九大中心皆開放，不要在任何當下衝動做出重大人生承諾。\n2. 面對重大抉擇給自己 28.5 天，跟隨月亮走過 64 個閘門。\n3. 當月亮循環結束，答案將自然澄澈浮現，生命將充滿驚喜！",
+            decisionGuide: "【專屬決策密技】\n1. 九大中心皆未定義（空白），不要在任何當下衝動做出重大人生承諾。\n2. 面對重大抉擇給自己 28.5 天，跟隨月亮走過 64 個閘門。\n3. 當月亮循環結束，答案將自然澄澈浮現，生命將充滿驚喜！",
             notSelfGuide: "【非自己主題：失望 (Disappointment) 深度解析與解套】\n• 為什麼會失望？身處不對的環境或與消耗能量的人在一起，被周遭的混亂所制約。\n• 解套三步驟：1. 檢查當前物理環境是否舒適 2. 果斷離開讓你不舒服的人事物 3. 進入舒適的場域重新洗滌身心。",
-            desc: "珍貴的宇宙採樣者。九大中心皆開放。透過 28.5 天月亮循環感受環境與群體的真相，為世界帶來驚喜。"
+            desc: "珍貴的宇宙採樣者。九大中心皆未定義（空白）。透過 28.5 天月亮循環感受環境與群體的真相，為世界帶來驚喜。"
         }
     },
 
@@ -2188,7 +2220,7 @@ window.HD_DATA = {
         EMOTIONAL: {
             name: "情緒權威 (Solar Plexus Authority)",
             motto: "情緒沒有當下的真相，睡一覺過後再決定",
-            desc: "您的情緒如浪潮般有高有低。嗨的時候不要給承諾，低落時不要做否定決定。請給自己充分的時間沉澱，等待浪潮平息後的清晰感浮現。"
+            desc: "您的情緒像波浪：高點容易過度樂觀而衝動承諾，低點又容易放大困難、想立刻放棄；兩端的感受都是真的，卻都不是全貌。「清明」不是等情緒消失，而是等它平復、不再被單一端拉著走。高點時先不承諾，低點時先不否決，留一段時間，看「想要」是否仍在、並能同時看見吸引力與代價，再做決定。"
         },
         SACRAL: {
             name: "薦骨權威 (Sacral Authority)",
@@ -2198,7 +2230,7 @@ window.HD_DATA = {
         SPLENIC: {
             name: "直覺權威 (Splenic Authority)",
             motto: "相信第一瞬間閃過的直覺第六感，稍縱即逝",
-            desc: "直覺聲音極微弱且只說一次，專注於身體在當下的安全與健康警報。若感到莫名不安或危險，請立刻相信身體並撤退。"
+            desc: "直覺是當下、一次性的細微訊號，只說一次，關心的是眼前的人事物是否安全合適，不預測未來，也不回頭分析。它常常安靜而迅速，不一定有畫面或聲音；若感到莫名不安，請相信身體並撤退。小提醒：直覺簡短、不帶情緒，焦慮則會反覆編造負面劇情。收到邀約時先延遲回應，給身體一點時間回報。"
         },
         EGO_MANIFESTED: {
             name: "意志力發起權威 (Ego Manifested Authority)",
@@ -2228,11 +2260,11 @@ window.HD_DATA = {
     },
 
     // 四箭頭與 PHS 飲食/環境/動機/視角資料庫 (Variables & Primary Health System)
-    // 納入完整四箭頭基調 (Tone) 與演化認知知識庫
+    // 納入完整四箭頭調性 (Tone) 與演化認知知識庫
     phs: {
         metaInfo: {
             title: "人類圖四箭頭 (Four Arrows / Variables) 認知系統",
-            toneRule: "四箭頭由基調 (Tone) 決定：Tone 1, 2, 3 為左箭頭 (Left)；Tone 4, 5, 6 為右箭頭 (Right)。",
+            toneRule: "四箭頭由調性 (Tone) 決定：Tone 1, 2, 3 為左箭頭 (Left)；Tone 4, 5, 6 為右箭頭 (Right)。",
             evolution: "【演化背景】1781 年以前的人類是全然左導向 (聚焦策略/生存主動)；2027 年後的新物種 Rave 為全然右導向 (廣角接納/海綿意識)；現代人類則是左右並存的過渡物種。",
             groundingLaw: "【土壤定律】正確的心理觀點與動機，必定建立在『正確的身體飲食與滋養環境』沃土之上。先照顧好左邊身心，右邊心智的獨特天賦才會水到渠成。"
         },
@@ -2627,6 +2659,177 @@ window.HD_DATA = {
         { name: "加拿大 - 多倫多", zone: "America/Toronto", tz: -5 },
         { name: "加拿大 - 溫哥華", zone: "America/Vancouver", tz: -8 }
     ]
+};
+
+/* ---- 通道／閘門補充欄位：常見困擾（shadow）、小實驗（practice）、別名（alias）----
+ * 以上欄位為自行改寫的編輯內容（用詞參考公開文章的慣用說法，非原文轉貼）。目前涵蓋 21 條通道與 4 個閘門，其餘尚無資料時介面不顯示。 */
+HD_DATA.channelNotes = {
+    "39-55": {
+        "shadow": "情緒一起一落時容易反覆糾結，或把自己的敏感當成缺點硬壓下去。",
+        "practice": "情緒浮起時，先說出「我現在感覺到＿＿」，先不急著下結論。",
+        "alias": "亦稱：煽情通道"
+    },
+    "12-22": {
+        "shadow": "低潮時仍勉強社交或創作、為了討好而假裝有情緒；也可能用冷淡把人推開。",
+        "practice": "沒電時誠實說：「我不是不理你，只是還沒準備好打開」，看看對方怎麼回應。"
+    },
+    "21-45": {
+        "shadow": "照顧資源的心過了頭，就變成事事要掌控、爭主導，或把資源當成地位象徵。",
+        "practice": "想插手前問自己：我是在負責，還是在掌控？先放手一件小事看看。"
+    },
+    "37-40": {
+        "shadow": "付出很多卻覺得不被看見而累積怨氣；或因為怕不被需要而勉強答應。",
+        "practice": "答應幫忙前先問：這是我真心想做的，還是只是責任感？"
+    },
+    "19-49": {
+        "shadow": "急著先付出以換取歸屬，或情緒忽冷忽熱、關係靠得太近太快而起摩擦。",
+        "practice": "收到邀約先讓情緒沉澱一下，再問自己：這真的是我要的嗎？",
+        "alias": "亦稱：敏感的設計"
+    },
+    "26-44": {
+        "shadow": "急著推銷自己、渴望被快速認同，訊息反而變得混濁；也容易投入過頭而忽略休息。",
+        "practice": "想急著推銷時停一拍：我是在等對的人出現，還是急著證明自己？"
+    },
+    "3-60": {
+        "shadow": "變化還沒發生時容易茫然低落；若用頭腦預測、控制時機只會更挫敗，也讓身邊的人難以預期。",
+        "practice": "每天觀察自己的能量起伏：現在是醞釀期，還是爆發期？"
+    },
+    "2-14": {
+        "shadow": "習慣用頭腦硬想「正確方向」，或太依賴外界的聲音，忽略身體的回應。",
+        "practice": "做決定前先停一下，問：此刻我的身體怎麼回應？"
+    },
+    "1-8": {
+        "shadow": "急著推銷自己的想法，或為了合群而把個性磨平，才華反而被忽略。",
+        "practice": "這週先不主動推銷，看看誰會主動邀你分享。",
+        "alias": "亦稱：靈感的通道"
+    },
+    "23-43": {
+        "shadow": "洞見來得突然，說出口時常跳過推理的過程，被當成怪人、覺得不被理解。",
+        "practice": "有了洞見先別急著說，想像怎麼向一個五歲孩子解釋，補上省略的步驟。",
+        "alias": "亦稱：建構的通道"
+    },
+    "47-64": {
+        "shadow": "腦中的畫面與記憶很雜亂，容易焦慮、覺得自己想太多。",
+        "practice": "每天記下一個浮現的畫面，過幾天再回頭看，它沉澱成了什麼意義。"
+    },
+    "4-63": {
+        "shadow": "把自己的懷疑硬塞給別人，或緊抓第一個答案不放，也容易把問題當成個人焦慮。",
+        "practice": "寫下三個你在意的疑問，各配一個「暫時的答案」，再找夥伴一起檢驗。",
+        "alias": "亦稱：問問題的通道"
+    },
+    "24-61": {
+        "shadow": "逼自己立刻想通而焦慮，把思考當成一定要有答案的任務。",
+        "practice": "每天留十分鐘獨處或散步，隨手記下浮現的念頭，看靈感在什麼時候出現。"
+    },
+    "11-56": {
+        "shadow": "想法太多反而反覆修飾、不敢開口；被質疑時容易挫折，或只是為了說話而說話。",
+        "practice": "這次先不修飾，直接分享一個靈感，看看誰有共鳴。",
+        "alias": "亦稱：說故事的通道"
+    },
+    "9-52": {
+        "shadow": "被誤會「應該一直很專心」；對沒興趣的事會恍神，其實是自我保護，不是偷懶。",
+        "practice": "連續一週記下哪些事讓你自然沉浸、哪些讓你失神，問：我是在點燃興趣，還是在硬撐？"
+    },
+    "28-38": {
+        "shadow": "沒有值得投入的目標時會停滯空虛；生活太平順反而不安，也可能為奮鬥而奮鬥而耗損。",
+        "practice": "每天記下一件讓你有活力的挑戰，問：這件事值得我投入嗎？"
+    },
+    "35-36": {
+        "shadow": "怕無聊，早年經歷零散、看起來不專一，容易被「下一個想體驗什麼」牽著走。",
+        "practice": "想嘗試新事物前先問：這份衝動來自內在權威的回應，還是只想逃離無聊？",
+        "alias": "亦稱：多才多藝的通道"
+    },
+    "18-58": {
+        "shadow": "指出問題時不先給安慰，容易被當成挑剔或冷漠；也可能把別人的批評都當成攻擊。",
+        "practice": "指正前先問自己：我在意的是事情還是這個人？先說出對方一個優點再提建議。",
+        "alias": "亦稱：追求完美的通道"
+    },
+    "32-54": {
+        "shadow": "目標一消失，動力就轉成焦慮與壓力，或變成對身邊人的過度干預。",
+        "practice": "寫下一個值得投入數年的目標，問：如果今天沒有待辦事項，我會焦躁還是平靜？"
+    },
+    "27-50": {
+        "shadow": "給自己的標準太重時，滋養會耗竭；對外嚴厲、對內苛責，犯錯後容易內疚。",
+        "practice": "寫下一條你對自己的「必須」，問：這是我真正在乎的，還是怕自己不夠好？"
+    },
+    "42-53": {
+        "shadow": "循環沒有好好結束就會挫敗；也容易急著開新事物，或被外在時間表牽著走。",
+        "practice": "開始新事情前問：上一個循環，我真的畫上句點了嗎？"
+    }
+};
+HD_DATA.gateNotes = {
+    "2": {
+        "shadow": "年輕時的洞見不容易被認同、被看成固執；對自己的標準嚴，容易被誤會不知變通。",
+        "practice": "每天問一次：我現在是在走自己的方向，還是急著說服別人？"
+    },
+    "13": {
+        "shadow": "容易把別人的情緒與祕密背在身上，需要設定界線。",
+        "practice": "每週選一則聽來的經驗，隱去細節，問：背後共通的人性是什麼？"
+    },
+    "42": {
+        "shadow": "太執著有始有終，在不值得的事上耗力、難以放手。",
+        "practice": "投入前問薦骨：這件事讓我興奮嗎？結束時用小儀式道謝並放手。"
+    },
+    "61": {
+        "shadow": "把外界的問題與焦慮當成自己的，硬要替每個疑問找答案而精神疲累。",
+        "practice": "本週留意一個念頭，問：這是我的靈感，還是別人的焦慮？"
+    }
+};
+HD_DATA.noteOfChannel = function (id) {
+    const k = String(id).split('-').map(Number).sort((a, b) => a - b);
+    const hit = Object.keys(HD_DATA.channelNotes).find(x => x.split('-').map(Number).sort((a, b) => a - b).join('-') === k.join('-'));
+    return hit ? HD_DATA.channelNotes[hit] : null;
+};
+
+/* ---- 類型補充：氣場（aura）、約佔比例（share）、小實驗（practice），以及投射者／反映者的專屬補充（typeExtras）----
+ * 為自行改寫的編輯內容（用詞參考公開文章的慣用說法，非原文轉貼）；比例為大約說法，請以課程講義為準。 */
+HD_DATA.typeNotes = {
+    "GENERATOR": {
+        "aura": "氣場沉穩內斂，靠身體的回應而不是即時表態。",
+        "share": "人數相當多",
+        "practice": "被邀約時先停半拍，把它變成是非題，觀察身體出現的是暢通的「嗯哼」，還是緊縮的「嗯嗯」，記錄一週。"
+    },
+    "MANIFESTING_GENERATOR": {
+        "aura": "兼具薦骨的持續力與更快的啟動力，像加了加速功能的發電機。",
+        "share": "人數也不少",
+        "practice": "靈感出現時，先做 5～15 分鐘的小測試，看身體是否持續說「是」，有回應再加碼。"
+    },
+    "MANIFESTOR": {
+        "aura": "天生的發起者；氣場封閉、有防衛性，旁人不容易預先感知你的行動。這是能量的特性，不是缺陷。",
+        "share": "約 8%～9%",
+        "practice": "下次行動前問自己「誰會受影響」，簡短預告一次，看看對方的反應和自己的憤怒有沒有減少。"
+    },
+    "PROJECTOR": {
+        "aura": "氣場專注，擅長洞察人與系統；沒有薦骨，不適合長時間拚體力，適度休息能讓洞察保持銳利。",
+        "share": "約 20%",
+        "practice": "這週提出建議前，先問對方「需要我的看法嗎？」，並記下對方的反應與你的感受。"
+    },
+    "REFLECTOR": {
+        "aura": "九大中心皆未定義，像一面高敏的鏡子，映照出環境的品質；選對環境比追求職稱更重要。",
+        "share": "約 1%",
+        "practice": "寫下一個重大選項，一個月內在不同場域重新檢視，每天記下情緒、睡眠與身體的輕重感。"
+    }
+};
+HD_DATA.typeExtras = {
+    "PROJECTOR": {
+        "title": "🔎 中立提問與判斷邀請",
+        "items": [
+            "中立提問：不帶預設、批判或引導的問題，讓對方說出真實想法，例如「你為什麼想找我？」。",
+            "這份邀請是否清楚具體？我的角色與貢獻是否明確？",
+            "對方是否真的看見我的獨特價值？有足夠的資源與支持嗎？",
+            "投入後，生活會變得更輕鬆，還是更沉重？符合我長期的方向嗎？",
+            "放下期待與恐懼後，我的內在是平靜，還是興奮？"
+        ]
+    },
+    "REFLECTOR": {
+        "title": "🌙 28 天的記錄做法",
+        "items": [
+            "每天記下當下的感受，看同一個決定在不同流日下反應有什麼變化。",
+            "留意哪些感受經過時間沉澱後仍然在。",
+            "情緒強烈時提醒自己：這可能只是流日或他人的能量，先抽離一下。",
+            "也可以透過與人交談，聽見自己的想法；並留意哪個環境、哪個人讓你舒適。"
+        ]
+    }
 };
 
 </script>
@@ -4161,6 +4364,12 @@ window.HD_MANUAL = (function () {
         if (!acts.length) return '<span class="mn-muted">本命盤未啟動此閘門（開放）</span>';
         return acts.map(a => `<span class="mn-act ${a.conscious ? 'p' : 'd'}">${a.conscious ? '個性' : '設計'} ${PLANETS[a.planet] || a.planet} ${g}.${a.line}</span>`).join('');
     }
+    // 補充：別名、常見困擾、小實驗
+    function noteBlock(n) {
+        if (!n) return '';
+        return `<div class="mn-note">${n.alias ? `<div class="mn-alias">${esc(n.alias)}</div>` : ''}
+            <p><b>🌫️ 可能卡住的地方</b><br>${esc(n.shadow)}</p><p><b>🌱 小實驗</b><br>${esc(n.practice)}</p></div>`;
+    }
     function gateDetail(g) {
         const info = HD_DATA.gatesInfo[g] || {}, c = HD_DATA.centers[gateCenter[g]];
         const chs = HD_DATA.channels.filter(ch => ch.gates.includes(g));
@@ -4169,7 +4378,7 @@ window.HD_MANUAL = (function () {
         return {
             title: `${g} 號閘門 ‧ ${esc(info.hexagram || '')}`,
             sub: `位於 ${esc(c.name)} ‧ 啟動狀態：${stText}`,
-            html: `<p class="mn-lead">${esc(info.theme || '')}</p>
+            html: `<p class="mn-lead">${esc(info.theme || '')}</p>${noteBlock(HD_DATA.gateNotes && HD_DATA.gateNotes[g])}
                 <h5>本命啟動來源</h5><div class="mn-acts">${actList(g)}</div>
                 <h5>所屬通道</h5><div>${chs.map(ch => {
                     const other = ch.gates.find(x => x !== g), full = chart.activeChannelIds.has(ch.id);
@@ -4187,7 +4396,7 @@ window.HD_MANUAL = (function () {
         return {
             title: `${id} ‧ ${esc(ch.name)}`,
             sub: status,
-            html: `<p class="mn-lead">${esc(ch.desc)}</p>
+            html: `<p class="mn-lead">${esc(ch.desc)}</p>${noteBlock(HD_DATA.noteOfChannel && HD_DATA.noteOfChannel(id))}
                 <h5>連接的兩個中心</h5><div>${ch.centers.map(c => chip('center', c, esc(HD_DATA.centers[c].name), chart.centersState[c].defined ? 'on' : '')).join('')}</div>
                 ${[a, b].map(g => `<h5>${chip('gate', g, g + ' 號閘門', gateState(g) !== 'none' ? 'on' : '')} ${esc((HD_DATA.gatesInfo[g] || {}).hexagram || '')}</h5>
                     <p class="mn-small">${esc((HD_DATA.gatesInfo[g] || {}).theme || '')}</p><div class="mn-acts">${actList(g)}</div>`).join('')}`,
@@ -4818,6 +5027,15 @@ function renderCrossDetail(chart) {
     `;
 }
 
+/** 通道補充：別名、常見困擾、小實驗（內容見 data.js 的 channelNotes） */
+function channelNoteHtml(id) {
+    const n = HD_DATA.noteOfChannel && HD_DATA.noteOfChannel(id);
+    if (!n) return '';
+    return `<div class="ch-note">${n.alias ? `<div class="ch-alias">${n.alias}</div>` : ''}
+        <div><b>🌫️ 可能卡住的地方</b>　${n.shadow}</div>
+        <div><b>🌱 小實驗</b>　${n.practice}</div></div>`;
+}
+
 function renderChannels(channels) {
     const container = document.getElementById('channels-container');
     container.innerHTML = '';
@@ -4833,6 +5051,7 @@ function renderChannels(channels) {
         item.innerHTML = `
             <div style="font-weight: 800; color: var(--atlantis-blue); margin-bottom: 0.2rem;">⚡ ${ch.id} ${ch.name} (${ch.centers[0]} <-> ${ch.centers[1]})</div>
             <div style="color: var(--text-secondary); font-size: 0.88rem;">${ch.desc}</div>
+            ${channelNoteHtml(ch.id)}
         `;
         container.appendChild(item);
     });
@@ -5131,6 +5350,27 @@ ${crossInfo.lifeTheme || '【靈魂主線啟示】\n當您順應策略與內在�
 /**
  * 渲染 Tab 2: 個人專屬決策導航系統 (含定義與非自己深度解析)
  */
+/** 類型補充：氣場、約佔比例、小實驗（資料見 data.js 的 typeNotes） */
+function typeKeyOf(typeInfo) {
+    return Object.keys(HD_DATA.types).find(k => HD_DATA.types[k].name === typeInfo.name);
+}
+function typeNoteHtml(typeInfo) {
+    const n = HD_DATA.typeNotes && HD_DATA.typeNotes[typeKeyOf(typeInfo)];
+    if (!n) return '';
+    return `<div class="type-note"><div><b>🌫️ 氣場</b>　${n.aura}</div>
+        <div><b>👥 約佔人口</b>　${n.share}</div>
+        <div><b>🌱 小實驗</b>　${n.practice}</div></div>`;
+}
+function typeExtraHtml(typeInfo) {
+    const x = HD_DATA.typeExtras && HD_DATA.typeExtras[typeKeyOf(typeInfo)];
+    if (!x) return '';
+    return `<div class="crystal-card">
+        <div class="card-tag">類型補充</div>
+        <div class="card-value" style="font-size: 1.15rem;">${x.title}</div>
+        <ul style="margin: 0.6rem 0 0 1.1rem; padding: 0; font-size: 0.9rem; line-height: 1.75; color: var(--text-secondary);">${x.items.map(i => `<li>${i}</li>`).join('')}</ul>
+    </div>`;
+}
+
 function renderDecisionTab(chart) {
     const box = document.getElementById('decision-content-box');
     const defInfo = chart.definition;
@@ -5146,6 +5386,7 @@ function renderDecisionTab(chart) {
                 <div style="white-space: pre-wrap; font-size: 0.92rem; color: var(--text-secondary); margin-top: 0.8rem; line-height: 1.75;">
                     ${typeInfo.decisionGuide}
                 </div>
+                ${typeNoteHtml(typeInfo)}
             </div>
 
             <!-- 2. 內在權威導航 -->
@@ -5178,6 +5419,33 @@ function renderDecisionTab(chart) {
                     ${typeInfo.notSelfGuide || '當感到挫敗與煩躁時，代表頭腦正在強行發起。請停下腳步，把主導權交還給身心回應。'}
                 </div>
             </div>
+
+            <!-- 5. 頭腦的位置 -->
+            <div class="crystal-card">
+                <div class="card-tag">第五守則 ‧ 頭腦的位置</div>
+                <div class="card-value" style="font-size: 1.25rem;">🧠 頭腦像乘客，身體才是駕駛</div>
+                <div style="font-size: 0.92rem; color: var(--text-secondary); margin-top: 0.8rem; line-height: 1.75;">
+                    頭腦很會分析、很會為決定找理由，適合用來反思與分享；但念頭再完整，也不等於「該立刻行動」。行動的依據是策略與內在權威給出的身體回應，不是理由聽起來有多動人。
+                </div>
+                <div style="background: var(--glow-amber-light); padding: 0.8rem 1rem; border-radius: 12px; margin-top: 0.8rem; font-size: 0.88rem; line-height: 1.7; color: var(--text-primary);">
+                    <b>🌱 一週小實驗：</b>每次冒出「我應該馬上……」的念頭，先記下日期與念頭，隔天再回頭看：身體的反應是什麼？這個念頭還成立嗎？
+                </div>
+            </div>
+
+            <!-- 6. 內在綠燈與紅燈 -->
+            <div class="crystal-card">
+                <div class="card-tag">校正訊號 ‧ 內在綠燈與紅燈</div>
+                <div class="card-value" style="font-size: 1.15rem;">💚 ${typeInfo.signature}　⇄　🔴 ${typeInfo.notSelfTheme}</div>
+                <div style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.7rem; line-height: 1.75;">
+                    順著策略與內在權威生活時，身體會出現「${typeInfo.signature}」這類平穩踏實的感受，像導航上的綠燈；偏離時，「${typeInfo.notSelfTheme}」就會亮起來提醒你。
+                    <ul style="margin: 0.5rem 0 0 1.1rem; padding: 0;">
+                        <li>綠燈不一定轟轟烈烈，安靜的安穩也算數。</li>
+                        <li>紅燈是校正訊號，不是自我否定，回到策略與內在權威調整即可。</li>
+                        <li>看長期趨勢，不要只看單次情緒。</li>
+                    </ul>
+                </div>
+            </div>
+            ${typeExtraHtml(typeInfo)}
         </div>
 
         <!-- 九大中心防雷矩陣 -->
@@ -5206,6 +5474,54 @@ function renderDecisionTab(chart) {
 /**
  * 渲染 Tab 3: 四箭頭與 PHS 飲食環境 (納入部落格完整知識庫)
  */
+/**
+ * 四箭頭背景示意圖：左欄＝設計（紅）、右欄＝個性（黑），依 (1)左上→(2)左下→(3)右下→(4)右上 的順序，
+ * 每個位置畫出本人實際的箭頭方向（⬅ 或 ➡），並以虛線串起順序
+ */
+/**
+ * 四箭頭「左 / 右」對照列（主動‧被動、策略型‧接收型、被觀察者‧觀察者、聚焦‧全景），本人實際的方向會標亮
+ */
+function phsPair(kind, arrowText) {
+    const T = {
+        digestion:   { l: ['主動', 'ACTIVE'],       r: ['被動', 'PASSIVE'],       note: '對飲食消化、大腦吸收的類型' },
+        motivation:  { l: ['策略型', 'STRATEGIC'],  r: ['接收型', 'RECEPTIVE'],    note: '動機輸出、行為表達的類型' },
+        environment: { l: ['被觀察者', 'OBSERVED'], r: ['觀察者', 'OBSERVER'],      note: '在環境中的姿態' },
+        perspective: { l: ['聚焦', 'FOCUSED'],      r: ['全景', 'PERIPHERAL'],     note: '觀點接收：對外在訊息所看的視角' }
+    }[kind];
+    const right = String(arrowText).includes('右');
+    const opt = (o, glyph, on) => `<div class="phs-opt${on ? ' on' : ''}"><span class="phs-glyph">${glyph}</span><b>${o[0]}</b><small>${o[1]}</small></div>`;
+    return `<div class="phs-pair">${opt(T.l, '⬅', !right)}${opt(T.r, '➡', right)}</div><div class="phs-pair-note">${T.note}</div>`;
+}
+
+/** 第 1 個箭頭（身體）：依主動／被動給運動方式的參考 */
+function phsExercise(arrowText) {
+    const right = String(arrowText).includes('右');
+    const t = right
+        ? { k: '被動型身體', d: '適合溫和、多樣、以享受為主的活動，例如散步、瑜伽、伸展、跳舞、游泳。被動不等於不動；硬做高強度訓練，反而容易耗竭、受傷、恢復也慢。從「今天想怎麼動」出發就好。' }
+        : { k: '主動型身體', d: '需要規律、有強度的運動，缺乏活動時容易煩躁、能量停滯；動完通常會覺得清爽。可以像排重要的會議一樣排進行程，例如間歇訓練、重量訓練。' };
+    return `<div class="phs-exercise"><b>🏃 運動方式參考・${t.k}</b><br>${t.d}</div>`;
+}
+
+function phsBackground(v) {
+    const pts = [
+        { x: 25, y: 25, dir: v.digestion.arrow, color: '#c9453f' },     // (1) 左上
+        { x: 25, y: 75, dir: v.environment.arrow, color: '#c9453f' },   // (2) 左下
+        { x: 75, y: 75, dir: v.perspective.arrow, color: '#2b2b2b' },   // (3) 右下
+        { x: 75, y: 25, dir: v.motivation.arrow, color: '#2b2b2b' }     // (4) 右上
+    ];
+    const arrow = p => {
+        const right = String(p.dir).includes('右');
+        const x1 = p.x - 17, x2 = p.x + 17, tip = right ? x2 : x1, tail = right ? x1 : x2, head = right ? x2 - 9 : x1 + 9;
+        return `<line x1="${tail}" y1="${p.y}" x2="${head}" y2="${p.y}" stroke="${p.color}" stroke-width="16" stroke-linecap="butt" vector-effect="non-scaling-stroke" opacity=".13"/>
+            <polygon points="${tip},${p.y} ${head},${p.y - 11} ${head},${p.y + 11}" fill="${p.color}" opacity=".13"/>`;
+    };
+    return `<svg class="phs-bg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <line x1="50" y1="4" x2="50" y2="96" stroke="#b9a27a" stroke-width="1.5" stroke-dasharray="4 4" vector-effect="non-scaling-stroke" opacity=".35"/>
+        <polyline points="25,40 25,60 40,75 60,75 75,60 75,40" fill="none" stroke="#b9a27a" stroke-width="2" stroke-dasharray="6 5" vector-effect="non-scaling-stroke" opacity=".45"/>
+        ${pts.map(arrow).join('')}
+    </svg>`;
+}
+
 function renderPhsTab(chart) {
     const v = chart.variables;
     const meta = HD_DATA.phs.metaInfo;
@@ -5215,9 +5531,9 @@ function renderPhsTab(chart) {
     container.innerHTML = `
         <!-- 頂部：四箭頭認知核心原理與土壤定律 -->
         <div style="grid-column: 1 / -1; background: var(--glow-amber-light); border: 1px solid var(--border-gold); padding: 1.4rem 1.8rem; border-radius: 18px; margin-bottom: 0.8rem; line-height: 1.8; color: var(--text-primary);">
-            <h3 style="color: var(--text-accent); font-size: 1.15rem; margin-bottom: 0.4rem; font-weight: 700;">🌱 四箭頭基調 (Tone) 與演化認知定律</h3>
+            <h3 style="color: var(--text-accent); font-size: 1.15rem; margin-bottom: 0.4rem; font-weight: 700;">🌱 四箭頭調性 (Tone) 與演化認知定律</h3>
             <p style="font-size: 0.92rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
-                <b>• 基調判定原則：</b>基調 1、2、3 決定箭頭往左（⬅️ 聚焦策略 / 主動）；基調 4、5、6 決定箭頭往右（➡️ 廣角接納 / 被動）。
+                <b>• 調性判定原則：</b>調性 1、2、3 決定箭頭往左（⬅️ 聚焦策略 / 主動）；調性 4、5、6 決定箭頭往右（➡️ 廣角接納 / 被動）。
             </p>
             <p style="font-size: 0.92rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
                 <b>• 演化史觀：</b>1781 年以前的人類是全然左導向（生存主動）；2027 年後的新物種 Rave 為全然右導向（廣角海綿）；現代人類則是左右並存的獨特過渡物種。
@@ -5227,38 +5543,29 @@ function renderPhsTab(chart) {
             </p>
         </div>
 
+        <div class="phs-board">
+        ${phsBackground(v)}
         <!-- 1. 身體消化 PHS (左上箭頭 - 紅色設計太陽/地球) -->
         <div class="phs-card">
-            <div class="card-tag">🔴 第一個箭頭 ‧ 左上 (Top-Left)</div>
+            <div class="card-tag">🔴 (1) 第一個箭頭 ‧ 左上 (Top-Left)</div>
             <h3 style="color: var(--text-primary); font-size: 1.2rem; font-weight: 700;">身體與大腦系統 (Brain / Digestion)</h3>
+            ${phsPair('digestion', v.digestion.arrow)}
             <div class="phs-arrow-tag">
                 <span>${v.digestion.arrow}</span>
             </div>
             <div style="color: var(--text-secondary); font-size: 0.92rem; line-height: 1.75;">${v.digestion.category.desc}</div>
+            ${phsExercise(v.digestion.arrow)}
             <div style="padding: 0.9rem 1rem; background: rgba(255,255,255,0.75); border-radius: 12px; border-left: 4px solid var(--color-unconscious);">
                 <b style="color: var(--color-unconscious); font-size: 0.95rem;">${v.digestion.detail.name}</b>
                 <p style="margin-top: 0.35rem; font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65;">${v.digestion.detail.desc}</p>
             </div>
         </div>
 
-        <!-- 2. 身體環境 Environment (左下箭頭 - 紅色設計交點) -->
+        <!-- 右上：心智動機 Motivation (右上箭頭 - 黑色個性太陽/地球) -->
         <div class="phs-card">
-            <div class="card-tag">🔴 第二個箭頭 ‧ 左下 (Bottom-Left)</div>
-            <h3 style="color: var(--text-primary); font-size: 1.2rem; font-weight: 700;">生理空間環境 (Environment)</h3>
-            <div class="phs-arrow-tag">
-                <span>${v.environment.arrow}</span>
-            </div>
-            <div style="color: var(--text-secondary); font-size: 0.92rem; line-height: 1.75;">${v.environment.category.desc}</div>
-            <div style="padding: 0.9rem 1rem; background: rgba(255,255,255,0.75); border-radius: 12px; border-left: 4px solid var(--glow-sage);">
-                <b style="color: var(--glow-sage); font-size: 0.95rem;">${v.environment.detail.name}</b>
-                <p style="margin-top: 0.35rem; font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65;">${v.environment.detail.desc}</p>
-            </div>
-        </div>
-
-        <!-- 3. 心智動機 Motivation (右上箭頭 - 黑色個性太陽/地球) -->
-        <div class="phs-card">
-            <div class="card-tag">⚫ 第四個箭頭 ‧ 右上 (Top-Right)</div>
+            <div class="card-tag">⚫ (4) 第四個箭頭 ‧ 右上 (Top-Right)</div>
             <h3 style="color: var(--text-primary); font-size: 1.2rem; font-weight: 700;">心智動機與記憶 (Mind / Motivation)</h3>
+            ${phsPair('motivation', v.motivation.arrow)}
             <div class="phs-arrow-tag">
                 <span>${v.motivation.arrow}</span>
             </div>
@@ -5269,10 +5576,26 @@ function renderPhsTab(chart) {
             </div>
         </div>
 
+        <!-- 左下：身體環境 Environment (左下箭頭 - 紅色設計交點) -->
+        <div class="phs-card">
+            <div class="card-tag">🔴 (2) 第二個箭頭 ‧ 左下 (Bottom-Left)</div>
+            <h3 style="color: var(--text-primary); font-size: 1.2rem; font-weight: 700;">生理空間環境 (Environment)</h3>
+            ${phsPair('environment', v.environment.arrow)}
+            <div class="phs-arrow-tag">
+                <span>${v.environment.arrow}</span>
+            </div>
+            <div style="color: var(--text-secondary); font-size: 0.92rem; line-height: 1.75;">${v.environment.category.desc}</div>
+            <div style="padding: 0.9rem 1rem; background: rgba(255,255,255,0.75); border-radius: 12px; border-left: 4px solid var(--glow-sage);">
+                <b style="color: var(--glow-sage); font-size: 0.95rem;">${v.environment.detail.name}</b>
+                <p style="margin-top: 0.35rem; font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65;">${v.environment.detail.desc}</p>
+            </div>
+        </div>
+
         <!-- 4. 觀察視角 Perspective (右下箭頭 - 黑色個性交點) -->
         <div class="phs-card">
-            <div class="card-tag">⚫ 第三個箭頭 ‧ 右下 (Bottom-Right)</div>
+            <div class="card-tag">⚫ (3) 第三個箭頭 ‧ 右下 (Bottom-Right)</div>
             <h3 style="color: var(--text-primary); font-size: 1.2rem; font-weight: 700;">觀點與世界窗口 (View / Perspective)</h3>
+            ${phsPair('perspective', v.perspective.arrow)}
             <div class="phs-arrow-tag">
                 <span>${v.perspective.arrow}</span>
             </div>
@@ -5281,6 +5604,7 @@ function renderPhsTab(chart) {
                 <b style="color: var(--text-accent); font-size: 0.95rem;">${v.perspective.detail.name}</b>
                 <p style="margin-top: 0.35rem; font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65;">${v.perspective.detail.desc}</p>
             </div>
+        </div>
         </div>
     `;
 }
@@ -5482,7 +5806,7 @@ function renderCyclesTab(chart) {
     const natalGates = new Set([P.Sun.gate, P.Earth.gate, D.Sun.gate, D.Earth.gate, P.Moon.gate, D.Moon.gate]);
     const BODY_ZH = { Sun: '太陽', Moon: '月亮', NorthNode: '北交點', SouthNode: '南交點', Saturn: '土星', Uranus: '天王星' };
     const placeRow = (body, sym) => `<div><b>${sym} 本命${BODY_ZH[body]}</b>　個性 ${gl(P[body])}（${gname(P[body].gate)}）／設計 ${gl(D[body])}（${gname(D[body].gate)}）</div>`;
-    const LINE_ZH = ['', '研究者', '隱士', '實踐者', '社交者', '異端者', '角色典範'];
+    const LINE_ZH = ['', '調查員', '隱士', '烈士', '機會主義者', '異端者', '人生典範'];   // 用詞參考亞洲人類圖學院文章的六爻稱呼
     // 人生角色 = 黑太陽（個性太陽）的爻 / 紅太陽（設計太陽）的爻
     const profileRow = `<div><b>🎭 人生角色</b>　${chart.profile.name}</div>
         <div class="cycle-sub">⚫ 黑太陽（個性）${gl(P.Sun)}（${gname(P.Sun.gate)}）→ 第 ${P.Sun.line} 爻 ${LINE_ZH[P.Sun.line]}　＋　🔴 紅太陽（設計）${gl(D.Sun)}（${gname(D.Sun.gate)}）→ 第 ${D.Sun.line} 爻 ${LINE_ZH[D.Sun.line]}</div>`;
