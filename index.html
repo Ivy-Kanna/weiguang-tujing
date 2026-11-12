@@ -2260,13 +2260,10 @@ window.HD_DATA = {
     },
 
     // 四箭頭與 PHS 飲食/環境/動機/視角資料庫 (Variables & Primary Health System)
-    // 納入完整四箭頭調性 (Tone) 與演化認知知識庫
+    // 四箭頭知識庫（調性 Tone 的細部說明已先移除，待與講義核對後再補）
     phs: {
         metaInfo: {
             title: "人類圖四箭頭 (Four Arrows / Variables) 認知系統",
-            toneRule: "四箭頭由調性 (Tone) 決定：Tone 1, 2, 3 為左箭頭 (Left)；Tone 4, 5, 6 為右箭頭 (Right)。",
-            evolution: "【演化背景】1781 年以前的人類是全然左導向 (聚焦策略/生存主動)；2027 年後的新物種 Rave 為全然右導向 (廣角接納/海綿意識)；現代人類則是左右並存的過渡物種。",
-            groundingLaw: "【土壤定律】正確的心理觀點與動機，必定建立在『正確的身體飲食與滋養環境』沃土之上。先照顧好左邊身心，右邊心智的獨特天賦才會水到渠成。"
         },
 
         // 1. 身體消化 PHS (左上箭頭 - Design Sun/Earth - 身體與大腦)
@@ -5529,17 +5526,17 @@ function renderPhsTab(chart) {
 
     const container = document.getElementById('phs-container');
     container.innerHTML = `
-        <!-- 頂部：四箭頭認知核心原理與土壤定律 -->
+        <!-- 頂部：左箭頭與右箭頭的基本說明 -->
         <div style="grid-column: 1 / -1; background: var(--glow-amber-light); border: 1px solid var(--border-gold); padding: 1.4rem 1.8rem; border-radius: 18px; margin-bottom: 0.8rem; line-height: 1.8; color: var(--text-primary);">
-            <h3 style="color: var(--text-accent); font-size: 1.15rem; margin-bottom: 0.4rem; font-weight: 700;">🌱 四箭頭調性 (Tone) 與演化認知定律</h3>
+            <h3 style="color: var(--text-accent); font-size: 1.15rem; margin-bottom: 0.4rem; font-weight: 700;">🌱 左箭頭與右箭頭</h3>
             <p style="font-size: 0.92rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
-                <b>• 調性判定原則：</b>調性 1、2、3 決定箭頭往左（⬅️ 聚焦策略 / 主動）；調性 4、5、6 決定箭頭往右（➡️ 廣角接納 / 被動）。
+                <b>⬅️ 左箭頭（主動）：</b>偏結構化、有條理，傾向先設定方向、聚焦再行動。
             </p>
             <p style="font-size: 0.92rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
-                <b>• 演化史觀：</b>1781 年以前的人類是全然左導向（生存主動）；2027 年後的新物種 Rave 為全然右導向（廣角海綿）；現代人類則是左右並存的獨特過渡物種。
+                <b>➡️ 右箭頭（被動）：</b>偏接收、彈性高，習慣先觀察與感受，讓事情慢慢浮現，頭腦較晚才回頭理解。
             </p>
-            <p style="font-size: 0.92rem; color: var(--text-primary); font-weight: 600; background: rgba(255,255,255,0.75); padding: 0.6rem 0.9rem; border-radius: 10px; border-left: 3.5px solid var(--glow-amber);">
-                🌾 <b>土壤定律：</b>正確的心理觀點與心智動機，必定建立在『正確的身體飲食與滋養環境』沃土之上。先照顧好左側身心，右側心智的天賦才會水到渠成！
+            <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0;">
+                左右沒有好壞，只是節奏不同；請認識自己的組合，不必套用別人的方式。
             </p>
         </div>
 
@@ -5555,10 +5552,6 @@ function renderPhsTab(chart) {
             </div>
             <div style="color: var(--text-secondary); font-size: 0.92rem; line-height: 1.75;">${v.digestion.category.desc}</div>
             ${phsExercise(v.digestion.arrow)}
-            <div style="padding: 0.9rem 1rem; background: rgba(255,255,255,0.75); border-radius: 12px; border-left: 4px solid var(--color-unconscious);">
-                <b style="color: var(--color-unconscious); font-size: 0.95rem;">${v.digestion.detail.name}</b>
-                <p style="margin-top: 0.35rem; font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65;">${v.digestion.detail.desc}</p>
-            </div>
         </div>
 
         <!-- 右上：心智動機 Motivation (右上箭頭 - 黑色個性太陽/地球) -->
@@ -5570,10 +5563,6 @@ function renderPhsTab(chart) {
                 <span>${v.motivation.arrow}</span>
             </div>
             <div style="color: var(--text-secondary); font-size: 0.92rem; line-height: 1.75;">${v.motivation.category.desc}</div>
-            <div style="padding: 0.9rem 1rem; background: rgba(255,255,255,0.75); border-radius: 12px; border-left: 4px solid var(--glow-slate);">
-                <b style="color: var(--glow-slate); font-size: 0.95rem;">${v.motivation.detail.name}</b>
-                <p style="margin-top: 0.35rem; font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65;">${v.motivation.detail.desc}</p>
-            </div>
         </div>
 
         <!-- 左下：身體環境 Environment (左下箭頭 - 紅色設計交點) -->
@@ -5585,10 +5574,6 @@ function renderPhsTab(chart) {
                 <span>${v.environment.arrow}</span>
             </div>
             <div style="color: var(--text-secondary); font-size: 0.92rem; line-height: 1.75;">${v.environment.category.desc}</div>
-            <div style="padding: 0.9rem 1rem; background: rgba(255,255,255,0.75); border-radius: 12px; border-left: 4px solid var(--glow-sage);">
-                <b style="color: var(--glow-sage); font-size: 0.95rem;">${v.environment.detail.name}</b>
-                <p style="margin-top: 0.35rem; font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65;">${v.environment.detail.desc}</p>
-            </div>
         </div>
 
         <!-- 4. 觀察視角 Perspective (右下箭頭 - 黑色個性交點) -->
@@ -5600,10 +5585,6 @@ function renderPhsTab(chart) {
                 <span>${v.perspective.arrow}</span>
             </div>
             <div style="color: var(--text-secondary); font-size: 0.92rem; line-height: 1.75;">${v.perspective.category.desc}</div>
-            <div style="padding: 0.9rem 1rem; background: rgba(255,255,255,0.75); border-radius: 12px; border-left: 4px solid var(--text-accent);">
-                <b style="color: var(--text-accent); font-size: 0.95rem;">${v.perspective.detail.name}</b>
-                <p style="margin-top: 0.35rem; font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65;">${v.perspective.detail.desc}</p>
-            </div>
         </div>
         </div>
     `;
